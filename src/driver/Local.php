@@ -29,12 +29,16 @@ class Local extends FileBase
             ];
         }
         parent::save();
+        $url = $this->completeFileUrl;
+        if ($this->uploadType == 'local') {
+            $url = parse_url($url)['path'];
+        }
         SaveDb::trigger($this->tableName, [
             'upload_type' => $this->uploadType,
             'original_name' => $this->file->getOriginalName(),
             'mime_type' => $this->file->getOriginalMime(),
             'file_ext' => strtolower($this->file->getOriginalExtension()),
-            'url' => $this->completeFileUrl,
+            'url' => $url,
             'md5' => $md5,
             'create_by' => $this->createBy,
             'create_time' => date('Y-m-d H:i:s'),
@@ -42,7 +46,7 @@ class Local extends FileBase
         return [
             'save' => true,
             'msg' => '上传成功',
-            'url' => $this->completeFileUrl,
+            'url' => $url,
         ];
     }
 }
