@@ -2,6 +2,7 @@
 
 namespace ffhome\upload\driver;
 
+use ffhome\common\util\Thumb;
 use ffhome\upload\FileBase;
 use ffhome\upload\trigger\SaveDb;
 use think\facade\Db;
@@ -43,6 +44,15 @@ class Local extends FileBase
             'create_by' => $this->createBy,
             'create_time' => date('Y-m-d H:i:s'),
         ]);
+        if ($this->width != 0 && $this->height != 0) {
+            Thumb::size($url, $this->width, $this->height, true);
+        } else if ($this->width != 0) {
+            Thumb::width($url, $this->width, true);
+        } else if ($this->height != 0) {
+            Thumb::height($url, $this->height, true);
+        } else {
+            Thumb::compress($url);
+        }
         return [
             'save' => true,
             'msg' => '上传成功',

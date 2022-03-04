@@ -38,6 +38,18 @@ class Uploadfile
     protected $file;
 
     /**
+     * 压缩图片的宽度
+     * @var int
+     */
+    protected $width = 0;
+
+    /**
+     * 压缩图片的高度
+     * @var int
+     */
+    protected $height = 0;
+
+    /**
      * 创建人
      * @var string
      */
@@ -69,6 +81,28 @@ class Uploadfile
     public function setFile($value)
     {
         $this->file = $value;
+        return $this;
+    }
+
+    /**
+     * 设置压缩图片的宽度
+     * @param $value
+     * @return $this
+     */
+    public function setWidth($value)
+    {
+        $this->width = $value;
+        return $this;
+    }
+
+    /**
+     * 设置压缩图片的高度
+     * @param $value
+     * @return $this
+     */
+    public function setHeight($value)
+    {
+        $this->height = $value;
         return $this;
     }
 
@@ -129,6 +163,8 @@ class Uploadfile
             ->setUploadType($this->uploadType)
             ->setTableName($this->tableName)
             ->setFile($this->file)
+            ->setWidth($this->width)
+            ->setHeight($this->height)
             ->setCreateBy($this->createBy)
             ->save();
         return $save;

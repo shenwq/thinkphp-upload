@@ -37,6 +37,18 @@ class FileBase
     protected $completeFileUrl;
 
     /**
+     * 压缩图片的宽度
+     * @var int
+     */
+    protected $width = 0;
+
+    /**
+     * 压缩图片的高度
+     * @var int
+     */
+    protected $height = 0;
+
+    /**
      * 保存上传文件的数据表
      * @var string
      */
@@ -84,6 +96,28 @@ class FileBase
     public function setFile($value)
     {
         $this->file = $value;
+        return $this;
+    }
+
+    /**
+     * 设置压缩图片的宽度
+     * @param $value
+     * @return $this
+     */
+    public function setWidth($value)
+    {
+        $this->width = $value;
+        return $this;
+    }
+
+    /**
+     * 设置压缩图片的高度
+     * @param $value
+     * @return $this
+     */
+    public function setHeight($value)
+    {
+        $this->height = $value;
         return $this;
     }
 
