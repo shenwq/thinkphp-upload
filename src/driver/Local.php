@@ -34,6 +34,16 @@ class Local extends FileBase
         if ($this->uploadType == 'local') {
             $url = parse_url($url)['path'];
         }
+        if ($this->width != 0 && $this->height != 0) {
+            $url = Thumb::size($url, $this->width, $this->height, true);
+        } else if ($this->width != 0) {
+            $url = Thumb::width($url, $this->width, true);
+        } else if ($this->height != 0) {
+            $url = Thumb::height($url, $this->height, true);
+        } else {
+            $url = Thumb::compress($url);
+        }
+
         SaveDb::trigger($this->tableName, [
             'upload_type' => $this->uploadType,
             'original_name' => $this->file->getOriginalName(),
@@ -44,15 +54,6 @@ class Local extends FileBase
             'create_by' => $this->createBy,
             'create_time' => date('Y-m-d H:i:s'),
         ]);
-        if ($this->width != 0 && $this->height != 0) {
-            Thumb::size($url, $this->width, $this->height, true);
-        } else if ($this->width != 0) {
-            Thumb::width($url, $this->width, true);
-        } else if ($this->height != 0) {
-            Thumb::height($url, $this->height, true);
-        } else {
-            Thumb::compress($url);
-        }
         return [
             'save' => true,
             'msg' => '上传成功',
