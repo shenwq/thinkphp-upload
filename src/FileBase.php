@@ -49,6 +49,12 @@ class FileBase
     protected $height = 0;
 
     /**
+     * 上传图片路径前缀
+     * @var string
+     */
+    protected $prefix = 'p';
+
+    /**
      * 保存上传文件的数据表
      * @var string
      */
@@ -122,6 +128,17 @@ class FileBase
     }
 
     /**
+     * 设置上传图片路径前缀
+     * @param $prefix
+     * @return $this
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+        return $this;
+    }
+
+    /**
      * 设置保存文件数据表
      * @param $value
      * @return $this
@@ -147,7 +164,7 @@ class FileBase
      */
     public function save()
     {
-        $this->completeFilePath = Filesystem::disk('public')->putFile('upload', $this->file, function () {
+        $this->completeFilePath = Filesystem::disk('public')->putFile('upload' . DIRECTORY_SEPARATOR . $this->prefix, $this->file, function () {
             return date('Ymd') . DIRECTORY_SEPARATOR . uniqid();
         });
         $this->completeFileUrl = request()->domain() . '/' . str_replace(DIRECTORY_SEPARATOR, '/', $this->completeFilePath);

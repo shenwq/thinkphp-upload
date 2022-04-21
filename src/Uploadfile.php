@@ -50,6 +50,12 @@ class Uploadfile
     protected $height = 0;
 
     /**
+     * 上传图片路径前缀
+     * @var string
+     */
+    protected $prefix = 'p';
+
+    /**
      * 创建人
      * @var string
      */
@@ -103,6 +109,17 @@ class Uploadfile
     public function setHeight($value)
     {
         $this->height = $value;
+        return $this;
+    }
+
+    /**
+     * 设置上传图片路径前缀
+     * @param $prefix
+     * @return $this
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
         return $this;
     }
 
@@ -165,6 +182,7 @@ class Uploadfile
             ->setFile($this->file)
             ->setWidth($this->width)
             ->setHeight($this->height)
+            ->setPrefix($this->prefix)
             ->setCreateBy($this->createBy)
             ->save();
         return $save;
