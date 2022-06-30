@@ -34,7 +34,9 @@ class Local extends FileBase
         if ($this->uploadType == 'local') {
             $url = parse_url($url)['path'];
         }
-        $url = Thumb::size($url, $this->width, $this->height, true);
+        if ($this->compress) {
+            $url = Thumb::size($url, $this->width, $this->height, true);
+        }
         SaveDb::trigger($this->tableName, [
             'upload_type' => $this->uploadType,
             'original_name' => $this->file->getOriginalName(),

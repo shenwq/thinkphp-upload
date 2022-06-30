@@ -37,6 +37,12 @@ class FileBase
     protected $completeFileUrl;
 
     /**
+     * 是否压缩图片
+     * @var bool
+     */
+    protected $compress = true;
+
+    /**
      * 压缩图片的宽度
      * @var int
      */
@@ -102,6 +108,17 @@ class FileBase
     public function setFile($value)
     {
         $this->file = $value;
+        return $this;
+    }
+
+    /**
+     * 设置是否压缩图片
+     * @param $value
+     * @return $this
+     */
+    public function setCompress($value)
+    {
+        $this->compress = $value;
         return $this;
     }
 
