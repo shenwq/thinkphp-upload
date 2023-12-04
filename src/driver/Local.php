@@ -23,10 +23,18 @@ class Local extends FileBase
         $md5 = $this->file->md5();
         $row = Db::name($this->tableName)->where('md5', $md5)->find();
         if (!empty($row)) {
+            SaveDb::trigger($this->tableName, [
+                'id' => $row['id'],
+                'original_name' => $this->file->getOriginalName(),
+                'create_by' => $this->createBy,
+                'create_time' => date('Y-m-d H:i:s'),
+            ]);
             return [
                 'save' => true,
                 'msg' => '上传成功',
+                'id' => $row['id'],
                 'url' => $row['url'],
+                'name' => $this->file->getOriginalName(),
             ];
         }
         parent::save();
@@ -37,7 +45,7 @@ class Local extends FileBase
         if ($this->compress) {
             $url = Thumb::size($url, $this->width, $this->height, true);
         }
-        SaveDb::trigger($this->tableName, [
+        $id = SaveDb::trigger($this->tableName, [
             'upload_type' => $this->uploadType,
             'original_name' => $this->file->getOriginalName(),
             'mime_type' => $this->file->getOriginalMime(),
@@ -50,7 +58,9 @@ class Local extends FileBase
         return [
             'save' => true,
             'msg' => '上传成功',
+            'id' => $id,
             'url' => $url,
+            'name' => $this->file->getOriginalName(),
         ];
     }
 }

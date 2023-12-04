@@ -19,7 +19,11 @@ class SaveDb
      */
     public static function trigger($tableName, $data)
     {
-        Db::name($tableName)->save($data);
+        if (!isset($data['id'])) {
+            return Db::name($tableName)->insertGetId($data);
+        }
+        Db::name($tableName)->update($data);
+        return 0;
     }
 
 }
